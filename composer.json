@@ -1,0 +1,12 @@
+{
+    "name": "deplink/repository",
+    "require-dev": {
+        "phalcon/devtools": "^3.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Deplink\\Repository\\": "src/",
+            "Deplink\\Repository\\Tests\\": "tests/"
+        }
+    }
+}

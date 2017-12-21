@@ -1,0 +1,6 @@
+# Composer dependencies.
+/vendor
+
+# Environment-specific configuration,
+# overwrite the .config.default options.
+.config
