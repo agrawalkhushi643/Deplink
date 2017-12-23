@@ -1,6 +1,6 @@
 <?php
 
-namespace Deplink\Repository\Controllers;
+namespace Deplink\Repository\App\Controllers;
 
 use Phalcon\Config\Adapter\Ini;
 use Phalcon\Logger\Adapter\File;

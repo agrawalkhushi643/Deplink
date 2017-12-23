@@ -1,5 +1,11 @@
+[auth]
+signup = on
+
+[oauth2]
+github = on
+
 [logger]
-file     = storage/logs
+file = storage/logs
 
 ; Log levels from the least to the most important ones:
 ; DEBUG, INFO, NOTICE, WARNING, ERROR, ALERT, CRITICAL EMERGENCY
@@ -16,4 +22,4 @@ dir      = resources/views
 cacheDir = storage/cache/views
 
 [router]
-namespace = Deplink\Repository\Controllers
+namespace = Deplink\Repository\App\Controllers

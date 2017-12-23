@@ -2,7 +2,7 @@
 
 use Phalcon\Config\Adapter\Ini;
 
-/** @var Phalcon\Di\FactoryDefault $di */
+/** @var Phalcon\Di $di */
 $di->setShared('config', function () {
     $default = new Ini('../.config.default');
 

@@ -2,7 +2,7 @@
 
 use Phalcon\Logger\Adapter\File;
 
-/** @var Phalcon\Di\FactoryDefault $di */
+/** @var Phalcon\Di $di */
 $di->setShared('logger', function () use($di) {
     $file = $di->get('config')->logger->file;
     $logger = new File("../$file");

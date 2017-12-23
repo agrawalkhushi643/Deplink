@@ -2,20 +2,18 @@
 
 use Phalcon\Mvc\View;
 
-/** @var Phalcon\Di\FactoryDefault $di */
+/** @var Phalcon\Di $di */
 $di->setShared('view', function () use($di) {
     $view = new View();
     $dir = $di->get('config')->view->dir;
+
+    // Config directory structure
     $view->setViewsDir("../$dir/");
+    //$view->setLayoutsDir(...);
+    //$view->setPartialsDir(...);
 
-    $volt = new View\Engine\Volt($view);
-    $cacheDir = $di->get('config')->view->cacheDir;
-    $volt->setOptions([
-        'compiledPath' => "../$cacheDir/",
-        'compiledSeparator' => '~',
-    ]);
-
-    $view->registerEngines(['.volt' => $volt]);
+    // Bind supported engines
+    $view->registerEngines(['.volt' => 'volt']);
 
     return $view;
 });

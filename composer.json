@@ -1,11 +1,16 @@
 {
     "name": "deplink/repository",
+    "require": {
+        "php": "^7.0",
+        "league/oauth2-github": "^2.0"
+    },
     "require-dev": {
         "phalcon/devtools": "^3.2"
     },
     "autoload": {
         "psr-4": {
             "Deplink\\Repository\\": "src/",
+            "Deplink\\Repository\\App\\": "app/",
             "Deplink\\Repository\\Tests\\": "tests/"
         }
     }
