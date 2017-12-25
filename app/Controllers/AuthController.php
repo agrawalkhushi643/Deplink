@@ -2,7 +2,7 @@
 
 namespace Deplink\Repository\App\Controllers;
 
-use Phalcon\Config;
+use Deplink\Repository\App\Services\OAuth2\Factory;
 
 class AuthController extends BaseController
 {
@@ -12,11 +12,19 @@ class AuthController extends BaseController
     }
 
     /**
-     * @param string $provider
+     * Handle OAuth2 workflow:
+     * - redirect to the provider login page if not authenticated,
+     * - or create user if provider redirected back the code.
+     *
+     * @param string $providerName
      */
-    public function socialJoinAction($provider)
+    public function socialJoinAction($providerName)
     {
-        $this->validateProvider($provider);
+        $this->validateProvider($providerName);
+
+        /** @var Factory $factory */
+        $factory = $this->di->get(Factory::class);
+        $provider = $factory->make($providerName);
 
         // ...
     }
@@ -31,7 +39,10 @@ class AuthController extends BaseController
      */
     private function validateProvider($provider)
     {
-        if(!$this->config->oauth2->get($provider)) {
+        $default = (object)['enabled' => false];
+        $oauth2 = $this->config->get($provider, $default);
+
+        if (!$oauth2->enabled) {
             $this->flashSession->error('Invalid provider');
 
             $this->response->redirect($this->url->get(['for' => 'join']));

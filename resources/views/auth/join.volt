@@ -1,5 +1,5 @@
 {{ flashSession.output() }}
 
-{% if config.oauth2.github %}
+{% if config.github.enabled %}
     <a href="{{ url(['for': 'social-join', 'provider': 'github']) }}"> Sign up with GitHub </a>
 {% endif %}
