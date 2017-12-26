@@ -2,7 +2,6 @@
 
 namespace Deplink\Repository\Tests\Context;
 
-use Behat\Behat\Tester\Exception\PendingException;
 use Deplink\Repository\Tests\Traits\Browser;
 use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\WebDriverBy;

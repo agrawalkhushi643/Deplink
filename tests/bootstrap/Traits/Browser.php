@@ -2,8 +2,6 @@
 
 namespace Deplink\Repository\Tests\Traits;
 
-use Behat\Behat\Hook\Scope\AfterScenarioScope;
-use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use PHPUnit\Framework\Assert;
@@ -92,7 +90,7 @@ trait Browser
 
     private static function startWebDriver()
     {
-        self::$webDriver = RemoteWebDriver::create('http://localhost:9515', DesiredCapabilities::chrome());
+        self::$webDriver = RemoteWebDriver::create('http://127.0.0.1:9515', DesiredCapabilities::chrome());
     }
 
     /**
