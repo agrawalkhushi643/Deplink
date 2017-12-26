@@ -1,0 +1,16 @@
+language: php
+
+php:
+  - 7.1
+
+addons:
+  chrome: stable
+
+before_install:
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+
+install:
+  - composer install --no-interaction
+
+script:
+  - composer run-script tests
