@@ -85,7 +85,9 @@ trait Browser
     private static function startBrowser()
     {
         $chromeDriver = "tests/bin/chromedriver-linux";
-        if (self::onWindows()) {
+        if(getenv('TRAVIS')) {
+            $chromeDriver = "google-chrome-stable --headless --no-sandbox --disable-gpu";
+        } else if (self::onWindows()) {
             $chromeDriver = "tests\bin\chromedriver-win.exe";
         } else if (self::onMac()) {
             $chromeDriver = "tests/bin/chromedriver-mac";
@@ -103,6 +105,7 @@ trait Browser
         $options->addArguments([
             '--headless',
             '--disable-gpu',
+            '--no-sandbox',
         ]);
 
         $chrome = DesiredCapabilities::chrome();

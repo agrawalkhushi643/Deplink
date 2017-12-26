@@ -1,10 +1,14 @@
+dist: trusty
+
+sudo: required
+
 language: php
+
+addons:
+  chrome: stable
 
 php:
   - 7.1
-
-before_install:
-  - chmod +x tests/bin/chromedriver-linux
 
 install:
   - composer install --no-interaction
