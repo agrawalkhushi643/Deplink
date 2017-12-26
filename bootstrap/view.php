@@ -8,7 +8,7 @@ $di->setShared('view', function () use($di) {
     $dir = $di->get('config')->view->dir;
 
     // Config directory structure
-    $view->setViewsDir(__DIR__ ."/../$dir/");
+    $view->setViewsDir(ROOT_DIR ."/$dir/");
     //$view->setLayoutsDir(...);
     //$view->setPartialsDir(...);
 

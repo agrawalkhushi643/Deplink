@@ -15,49 +15,44 @@ trait Browser
     /**
      * @var string
      */
-    private $host = 'localhost:8000';
+    private static $host = 'localhost:8000';
 
     /**
      * @var Process
      */
-    protected $server;
+    protected static $server;
 
     /**
      * @var Process
      */
-    protected $browser;
+    protected static $browser;
 
     /**
      * @var RemoteWebDriver
      */
-    protected $webDriver;
+    protected static $webDriver;
 
     /**
-     * @BeforeScenario
-     * @param BeforeScenarioScope $event
+     * @BeforeSuite
      * @throws PHPUnit_Framework_AssertionFailedError
      */
-    public function before(BeforeScenarioScope $event)
+    public static function beforeSuite()
     {
         try {
-            $this->startServer();
-            $this->startBrowser();
-            $this->startWebDriver();
+            self::startServer();
+            self::startBrowser();
+            self::startWebDriver();
         } catch (\Exception $e) {
             Assert::fail($e->getMessage());
         }
     }
 
     /**
-     * @throws PHPUnit_Framework_AssertionFailedError
-     * @throws \Symfony\Component\Process\Exception\LogicException
-     * @throws \Symfony\Component\Process\Exception\RuntimeException
+     * @return string
      */
-    private function startServer()
+    public function getHost()
     {
-        $this->server = new Process("php -S {$this->host} tests/server.php");
-        $this->server->start();
-        Assert::assertTrue($this->server->isRunning());
+        return self::$host;
     }
 
     /**
@@ -65,23 +60,39 @@ trait Browser
      * @throws \Symfony\Component\Process\Exception\LogicException
      * @throws \Symfony\Component\Process\Exception\RuntimeException
      */
-    private function startBrowser()
+    private static function startServer()
+    {
+        $host = self::$host;
+
+        self::$server = new Process("php -S $host tests/server.php");
+        self::$server->start();
+
+        Assert::assertTrue(self::$server->isRunning());
+    }
+
+    /**
+     * @throws PHPUnit_Framework_AssertionFailedError
+     * @throws \Symfony\Component\Process\Exception\LogicException
+     * @throws \Symfony\Component\Process\Exception\RuntimeException
+     */
+    private static function startBrowser()
     {
         $chromeDriver = "tests/bin/chromedriver-linux";
-        if ($this->onWindows()) {
+        if (self::onWindows()) {
             $chromeDriver = "tests\bin\chromedriver-win.exe";
-        } else if ($this->onMac()) {
+        } else if (self::onMac()) {
             $chromeDriver = "tests/bin/chromedriver-mac";
         }
 
-        $this->browser = new Process($chromeDriver);
-        $this->browser->start();
-        Assert::assertTrue($this->browser->isRunning());
+        self::$browser = new Process($chromeDriver);
+        self::$browser->start();
+
+        Assert::assertTrue(self::$browser->isRunning());
     }
 
-    private function startWebDriver()
+    private static function startWebDriver()
     {
-        $this->webDriver = RemoteWebDriver::create('http://localhost:9515', DesiredCapabilities::chrome());
+        self::$webDriver = RemoteWebDriver::create('http://localhost:9515', DesiredCapabilities::chrome());
     }
 
     /**
@@ -89,7 +100,7 @@ trait Browser
      *
      * @return bool
      */
-    protected function onWindows()
+    protected static function onWindows()
     {
         return PHP_OS === 'WINNT';
     }
@@ -98,19 +109,26 @@ trait Browser
      *
      * @return bool
      */
-    protected function onMac()
+    protected static function onMac()
     {
         return PHP_OS === 'Darwin';
     }
 
     /**
      * @AfterScenario
-     * @param AfterScenarioScope $event
      */
-    public function after(AfterScenarioScope $event)
+    public function afterScenario()
     {
-        $this->webDriver->close();
-        $this->browser->stop();
-        $this->server->stop();
+        self::$webDriver->manage()->deleteAllCookies();
+    }
+
+    /**
+     * @AfterSuite
+     */
+    public static function afterSuite()
+    {
+        self::$webDriver->quit();
+        self::$browser->stop();
+        self::$server->stop();
     }
 }

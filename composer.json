@@ -12,7 +12,7 @@
         }
     ],
     "scripts": {
-        "test": "behat --no-interaction --colors --verbose"
+        "tests": "behat --no-interaction --colors --verbose"
     },
     "autoload": {
         "psr-4": {

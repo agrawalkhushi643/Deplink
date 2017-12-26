@@ -2,13 +2,16 @@
 
 use Phalcon\Di\FactoryDefault;
 
+define('APP_DIR', realpath(__DIR__ .'/../app/'));
+define('ROOT_DIR', realpath(__DIR__ .'/../'));
+
 $di = new FactoryDefault();
-require __DIR__ .'/../vendor/autoload.php';
+require ROOT_DIR .'/vendor/autoload.php';
 
 // Register autoloader
-require __DIR__ .'/../bootstrap/config.php';
-require __DIR__ .'/../bootstrap/logger.php';
-require __DIR__ .'/../bootstrap/router.php';
-require __DIR__ .'/../bootstrap/session.php';
-require __DIR__ .'/../bootstrap/view.php';
-require __DIR__ .'/../bootstrap/volt.php';
+require ROOT_DIR .'/bootstrap/config.php';
+require ROOT_DIR .'/bootstrap/logger.php';
+require ROOT_DIR .'/bootstrap/router.php';
+require ROOT_DIR .'/bootstrap/session.php';
+require ROOT_DIR .'/bootstrap/view.php';
+require ROOT_DIR .'/bootstrap/volt.php';

@@ -5,7 +5,7 @@ use Phalcon\Logger\Adapter\File;
 /** @var Phalcon\Di $di */
 $di->setShared('logger', function () use($di) {
     $file = $di->get('config')->logger->file;
-    $logger = new File(__DIR__ ."/../$file");
+    $logger = new File(ROOT_DIR ."/$file");
 
     $logLevels = [
         'DEBUG' => 7,

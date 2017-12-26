@@ -4,11 +4,11 @@ use Phalcon\Config\Adapter\Ini;
 
 /** @var Phalcon\Di $di */
 $di->setShared('config', function () {
-    $default = new Ini(__DIR__ .'/../.config.default');
+    $default = new Ini(ROOT_DIR .'/.config.default');
 
     // Overwrite using environment-specific configuration.
-    if(file_exists(__DIR__ .'/../.config')) {
-        $custom = new Ini(__DIR__ .'/../.config');
+    if(file_exists(ROOT_DIR .'/.config')) {
+        $custom = new Ini(ROOT_DIR .'/.config');
         $default = $default->merge($custom);
     }
 

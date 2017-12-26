@@ -10,3 +10,4 @@ default:
               tags: "~@unimplemented"
             contexts:
               - Deplink\Repository\Tests\Context\BrowserContext
+              - Deplink\Repository\Tests\Context\ConfigContext

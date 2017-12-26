@@ -2,6 +2,8 @@
 
 namespace Deplink\Repository\App\Services\OAuth2\Providers;
 
-class GitHub
+use Deplink\Repository\App\Services\OAuth2\Provider;
+
+class GitHub implements Provider
 {
 }

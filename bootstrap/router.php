@@ -9,7 +9,7 @@ $di->setShared('router', function () use($di) {
     $namespace = $di->get('config')->router->namespace;
     $router->setDefaultNamespace($namespace);
 
-    require __DIR__ .'/../app/routes.php';
+    require APP_DIR .'/routes.php';
 
     return $router;
 });
