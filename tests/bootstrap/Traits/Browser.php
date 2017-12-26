@@ -2,6 +2,7 @@
 
 namespace Deplink\Repository\Tests\Traits;
 
+use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use PHPUnit\Framework\Assert;
@@ -54,6 +55,14 @@ trait Browser
     }
 
     /**
+     * @return string
+     */
+    public function getProtocol()
+    {
+        return 'http://';
+    }
+
+    /**
      * @throws PHPUnit_Framework_AssertionFailedError
      * @throws \Symfony\Component\Process\Exception\LogicException
      * @throws \Symfony\Component\Process\Exception\RuntimeException
@@ -90,7 +99,16 @@ trait Browser
 
     private static function startWebDriver()
     {
-        self::$webDriver = RemoteWebDriver::create('http://127.0.0.1:9515', DesiredCapabilities::chrome());
+        $options = new ChromeOptions();
+        $options->addArguments([
+            '--headless',
+            '--disable-gpu',
+        ]);
+
+        $chrome = DesiredCapabilities::chrome();
+        $chrome->setCapability(ChromeOptions::CAPABILITY, $options);
+
+        self::$webDriver = RemoteWebDriver::create('http://localhost:9515', $chrome);
     }
 
     /**

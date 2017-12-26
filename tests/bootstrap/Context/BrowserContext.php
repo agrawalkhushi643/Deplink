@@ -22,7 +22,7 @@ class BrowserContext extends BaseContext
             $url = substr($url, 1);
         }
 
-        self::$webDriver->get("{$this->getHost()}/$url");
+        self::$webDriver->get("{$this->getProtocol()}{$this->getHost()}/$url");
     }
 
     /**

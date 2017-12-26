@@ -1,13 +1,10 @@
-dist: trusty
 language: php
-addons:
-  chrome: stable
 
 php:
   - 7.1
 
 before_install:
-  - google-chrome-stable --headless --disable-gpu http://localhost:8000 &
+  - chmod +x tests/bin/chromedriver-linux
 
 install:
   - composer install --no-interaction
