@@ -7,9 +7,12 @@ use Deplink\Repository\App\Services\OAuth2\Factory;
 
 class AuthController extends BaseController
 {
+    /**
+     * Show signup page with social buttons.
+     */
     public function joinAction()
     {
-        // ...
+        $this->redirectIfSignupDisabled();
     }
 
     /**
@@ -22,7 +25,8 @@ class AuthController extends BaseController
      */
     public function socialJoinAction($providerName)
     {
-        $this->validateProvider($providerName);
+        $this->redirectIfSignupDisabled();
+        $this->redirectIfProviderDisabled($providerName);
 
         /** @var Factory $factory */
         $factory = $this->di->get(Factory::class);
@@ -37,9 +41,24 @@ class AuthController extends BaseController
     }
 
     /**
+     * Logout user and redirect to homepage.
+     */
+    public function logoutAction()
+    {
+        $this->session->destroy();
+
+        $homepageUrl = $this->url->get(['for' => 'homepage']);
+        $this->response->redirect($homepageUrl);
+    }
+
+    /**
+     * Check whether given provider is enabled in configuration.
+     *
+     * Redirect back if provider isn't supported.
+     *
      * @param string $provider
      */
-    private function validateProvider($provider)
+    private function redirectIfProviderDisabled($provider)
     {
         $default = (object)['enabled' => false];
         $oauth2 = $this->config->get($provider, $default);
@@ -47,7 +66,22 @@ class AuthController extends BaseController
         if (!$oauth2->enabled) {
             $this->flashSession->error('Invalid provider');
 
-            $this->response->redirect($this->url->get(['for' => 'join']));
+            $joinUrl = $this->url->get(['for' => 'join']);
+            $this->response->redirect($joinUrl);
+            $this->response->send();
+        }
+    }
+
+    /**
+     * Check whether signup is enabled in configuration.
+     *
+     * Redirect to login page if disabled.
+     */
+    private function redirectIfSignupDisabled()
+    {
+        if(!$this->config->auth->signup) {
+            $homepageUrl = $this->url->get(['for' => 'login']);
+            $this->response->redirect($homepageUrl);
             $this->response->send();
         }
     }

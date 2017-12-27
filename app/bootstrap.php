@@ -12,6 +12,7 @@ require ROOT_DIR .'/vendor/autoload.php';
 require ROOT_DIR .'/bootstrap/config.php';
 require ROOT_DIR .'/bootstrap/logger.php';
 require ROOT_DIR .'/bootstrap/router.php';
+require ROOT_DIR .'/bootstrap/security.php';
 require ROOT_DIR .'/bootstrap/session.php';
 require ROOT_DIR .'/bootstrap/view.php';
 require ROOT_DIR .'/bootstrap/volt.php';

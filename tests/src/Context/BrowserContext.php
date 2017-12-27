@@ -2,6 +2,7 @@
 
 namespace Deplink\Repository\Tests\Context;
 
+use Behat\Behat\Tester\Exception\PendingException;
 use Deplink\Repository\Tests\Traits\Browser;
 use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\WebDriverBy;
@@ -56,5 +57,30 @@ class BrowserContext extends BaseContext
     public function takeScreenshotNamed($name)
     {
         self::$webDriver->takeScreenshot(__DIR__ . "/../../screenshots/$name.jpg");
+    }
+
+    /**
+     * @Then I should be on page :url
+     */
+    public function iShouldBeOnPage($url)
+    {
+        $fullUrl = self::$webDriver->getCurrentURL();
+        $urlComponents = parse_url($fullUrl);
+
+        // Get path, query and fragment components
+        // (omits the schema, host and port parts).
+        $actual = $urlComponents['path'];
+
+        // After the question mark (?)
+        if(!empty($urlComponents['query'])) {
+            $actual .= '?'. $urlComponents['query'];
+        }
+
+        // After the hashmark (#)
+        if(!empty($urlComponents['fragment'])) {
+            $actual .= '#'. $urlComponents['fragment'];
+        }
+
+        Assert::assertEquals($url, $actual);
     }
 }

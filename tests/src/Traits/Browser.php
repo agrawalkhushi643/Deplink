@@ -34,15 +34,21 @@ trait Browser
     /**
      * @BeforeSuite
      * @throws PHPUnit_Framework_AssertionFailedError
+     * @throws \Symfony\Component\Process\Exception\LogicException
+     * @throws \Symfony\Component\Process\Exception\RuntimeException
      */
     public static function beforeSuite()
     {
+        self::startServer();
+        self::startBrowser();
+
         try {
-            self::startServer();
-            self::startBrowser();
             self::startWebDriver();
         } catch (\Exception $e) {
-            Assert::fail($e->getMessage());
+            // It's possible that browser or server
+            // aren't fully loaded, retry after 5s.
+            sleep(5);
+            self::startWebDriver();
         }
     }
 
@@ -123,6 +129,7 @@ trait Browser
     {
         return PHP_OS === 'WINNT';
     }
+
     /**
      * Determine if Dusk is running on Mac.
      *
