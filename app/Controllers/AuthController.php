@@ -2,6 +2,7 @@
 
 namespace Deplink\Repository\App\Controllers;
 
+use Deplink\Repository\App\Services\OAuth2\Exceptions\ProviderNotSupportedException;
 use Deplink\Repository\App\Services\OAuth2\Factory;
 
 class AuthController extends BaseController
@@ -17,6 +18,7 @@ class AuthController extends BaseController
      * - or create user if provider redirected back the code.
      *
      * @param string $providerName
+     * @throws ProviderNotSupportedException
      */
     public function socialJoinAction($providerName)
     {

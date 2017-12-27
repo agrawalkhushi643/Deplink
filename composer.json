@@ -18,7 +18,7 @@
         "psr-4": {
             "Deplink\\Repository\\": "src/",
             "Deplink\\Repository\\App\\": "app/",
-            "Deplink\\Repository\\Tests\\": "tests/bootstrap/"
+            "Deplink\\Repository\\Tests\\": "tests/src/"
         }
     },
     "require": {
@@ -30,6 +30,6 @@
         "phpunit/phpunit": "^5.7",
         "facebook/webdriver": "^1.5",
         "symfony/process": "^3.4",
-        "se/selenium-server-standalone": "^3.8"
+        "techpivot/phalcon-ci-installer": "^1.0"
     }
 }

@@ -10,6 +10,10 @@ addons:
 php:
   - 7.1
 
+before_install:
+  - chmod +x tests/bin/chromedriver-linux
+  - vendor/bin/install-phalcon.sh 3.0.x
+
 install:
   - composer install --no-interaction
 

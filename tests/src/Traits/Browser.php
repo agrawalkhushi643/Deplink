@@ -14,7 +14,7 @@ trait Browser
     /**
      * @var string
      */
-    private static $host = 'localhost:8000';
+    private static $host = 'localhost:8001';
 
     /**
      * @var Process
@@ -70,8 +70,9 @@ trait Browser
     private static function startServer()
     {
         $host = self::$host;
+        $prefix = self::onWindows() ? '' : 'exec';
 
-        self::$server = new Process("php -S $host tests/server.php");
+        self::$server = new Process("$prefix php -S $host tests/server.php");
         self::$server->start();
 
         Assert::assertTrue(self::$server->isRunning());
@@ -84,16 +85,16 @@ trait Browser
      */
     private static function startBrowser()
     {
+        $prefix = self::onWindows() ? '' : 'exec';
         $chromeDriver = "tests/bin/chromedriver-linux";
-        if(getenv('TRAVIS')) {
-            $chromeDriver = "google-chrome-stable --headless --no-sandbox --disable-gpu";
-        } else if (self::onWindows()) {
+
+        if (self::onWindows()) {
             $chromeDriver = "tests\bin\chromedriver-win.exe";
         } else if (self::onMac()) {
             $chromeDriver = "tests/bin/chromedriver-mac";
         }
 
-        self::$browser = new Process($chromeDriver);
+        self::$browser = new Process("$prefix $chromeDriver");
         self::$browser->start();
 
         Assert::assertTrue(self::$browser->isRunning());
@@ -104,7 +105,6 @@ trait Browser
         $options = new ChromeOptions();
         $options->addArguments([
             '--headless',
-            '--disable-gpu',
             '--no-sandbox',
         ]);
 
