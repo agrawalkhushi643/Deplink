@@ -23,7 +23,8 @@
     },
     "require": {
         "php": "^7.0",
-        "league/oauth2-github": "^2.0"
+        "league/oauth2-github": "^2.0",
+        "vlucas/phpdotenv": "^2.4"
     },
     "require-dev": {
         "behat/behat": "^3.3",

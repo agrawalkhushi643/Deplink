@@ -5,18 +5,15 @@ use Phalcon\Mvc\Application;
 
 require __DIR__ .'/../app/bootstrap.php';
 
-// Overwrite default services
-/** @var Ini $default */
-$default = $di->get('config');
-$config = $di->setShared('config', function () use($default) {
-    // Overwrite using test configuration.
-    if(file_exists(ROOT_DIR .'/.config.tests')) {
-        $tests = new Ini(ROOT_DIR .'/.config.tests');
-        $default = $default->merge($tests);
-    }
-
-    return $default;
-});
+// Overwrite environment variables
+try {
+    // Load .env configuration.
+    $dotenv = new Dotenv\Dotenv(ROOT_DIR, '.env.tests');
+    $dotenv->load();
+} catch (Dotenv\Exception\InvalidPathException $e) {
+    // Skip loading if .env file is not set
+    // (this catch block should be empty).
+}
 
 // Emulate .htaccess
 $file = ROOT_DIR .'/public/'. $_SERVER['REQUEST_URI'];

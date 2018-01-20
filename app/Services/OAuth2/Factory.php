@@ -2,29 +2,23 @@
 
 namespace Deplink\Repository\App\Services\OAuth2;
 
+use Deplink\Repository\App\Services\Injectable;
 use Deplink\Repository\App\Services\OAuth2\Exceptions\ProviderNotSupportedException;
 use League\OAuth2\Client\Provider\Github;
-use Phalcon\DiInterface;
+use Phalcon\Di\InjectionAwareInterface;
 
-class Factory
+class Factory extends \Phalcon\Di\Injectable
 {
-    const PROVIDERS = [
-        'github' => Github::class,
-    ];
-
     /**
-     * @var DiInterface
+     * @var array
      */
-    protected $di;
+    protected $providers;
 
-    /**
-     * Factory constructor.
-     *
-     * @param DiInterface $di
-     */
-    public function __construct(DiInterface $di)
+    public function __construct()
     {
-        $this->di = $di;
+        $this->providers = $this->getDI()
+            ->get('config')
+            ->path('security.oauth2.providers');
     }
 
     /**
@@ -34,11 +28,11 @@ class Factory
      */
     public function make($providerName)
     {
-        if(!isset(self::PROVIDERS[$providerName])) {
+        if (!isset($this->providers[$providerName])) {
             throw new ProviderNotSupportedException();
         }
 
-        $provider = self::PROVIDERS[$providerName];
-        return new $provider($this->di);
+        $provider = $this->providers[$providerName];
+        return $this->getDI()->get($provider);
     }
 }

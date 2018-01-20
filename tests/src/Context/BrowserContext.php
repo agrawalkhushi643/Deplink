@@ -3,6 +3,7 @@
 namespace Deplink\Repository\Tests\Context;
 
 use Behat\Behat\Tester\Exception\PendingException;
+use Behat\Gherkin\Node\TableNode;
 use Deplink\Repository\Tests\Traits\Browser;
 use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\WebDriverBy;
@@ -27,7 +28,7 @@ class BrowserContext extends BaseContext
     }
 
     /**
-     * @Then There should be link to page :url
+     * @Then there should be link to page :url
      * @throws \PHPUnit_Framework_AssertionFailedError
      */
     public function thereShouldBeLinkTo($url)
@@ -37,7 +38,7 @@ class BrowserContext extends BaseContext
     }
 
     /**
-     * @Then There should not be link to page :url
+     * @Then there should not be link to page :url
      * @throws \PHPUnit_Framework_AssertionFailedError
      */
     public function thereShouldNotBeLinkToPage($url)
@@ -52,7 +53,7 @@ class BrowserContext extends BaseContext
     }
 
     /**
-     * @Given Take screenshot named :name
+     * @Given take screenshot named :name
      */
     public function takeScreenshotNamed($name)
     {
@@ -82,5 +83,13 @@ class BrowserContext extends BaseContext
         }
 
         Assert::assertEquals($url, $actual);
+    }
+
+    /**
+     * @Then I should see :code error page
+     */
+    public function iShouldSeeErrorPage($code)
+    {
+        throw new PendingException();
     }
 }

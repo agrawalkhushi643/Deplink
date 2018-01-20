@@ -5,7 +5,7 @@ use Phalcon\Mvc\View;
 /** @var Phalcon\Di $di */
 $di->setShared('view', function () use($di) {
     $view = new View();
-    $dir = $di->get('config')->view->dir;
+    $dir = $di->get('config')->path('view.dir');
 
     // Config directory structure
     $view->setViewsDir(ROOT_DIR ."/$dir/");
@@ -14,6 +14,9 @@ $di->setShared('view', function () use($di) {
 
     // Bind supported engines
     $view->registerEngines(['.volt' => 'volt']);
+
+    // Make config visible globally
+    $view->setVar('config', $di->get('config'));
 
     return $view;
 });

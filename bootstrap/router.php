@@ -6,7 +6,7 @@ use Phalcon\Mvc\Router;
 $di->setShared('router', function () use($di) {
     $router = new Router();
 
-    $namespace = $di->get('config')->router->namespace;
+    $namespace = $di->get('config')->path('router.namespace');
     $router->setDefaultNamespace($namespace);
 
     require APP_DIR .'/routes.php';

@@ -8,4 +8,4 @@ Thank you for considering contributing! If you would like to fix a bug or propos
 License
 -------
 
-Code licensed under the [MIT License](https://opensource.org/licenses/MIT) and the docs are licensed under the [CC BY 3.0](https://creativecommons.org/licenses/by/3.0).
+Code licensed under the [MIT License](https://opensource.org/licenses/MIT).

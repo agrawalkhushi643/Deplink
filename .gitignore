@@ -1,10 +1,8 @@
 # Composer dependencies.
 /vendor
 
-# Environment-specific configuration,
-# overwrite the .config.default options.
-.config
+# Environment-specific configuration.
+.env
 
-# Overwrite the .config and the default
-# .config.default options (used in tests).
-.config.tests
+# Overwrite the .env variables (used in tests).
+.env.tests

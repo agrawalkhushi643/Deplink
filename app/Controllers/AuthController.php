@@ -8,11 +8,11 @@ use Deplink\Repository\App\Services\OAuth2\Factory;
 class AuthController extends BaseController
 {
     /**
-     * Show signup page with social buttons.
+     * Show join page with social buttons.
      */
     public function joinAction()
     {
-        $this->redirectIfSignupDisabled();
+        $this->redirectIfJoinDisabled();
     }
 
     /**
@@ -25,7 +25,7 @@ class AuthController extends BaseController
      */
     public function socialJoinAction($providerName)
     {
-        $this->redirectIfSignupDisabled();
+        $this->redirectIfJoinDisabled();
         $this->redirectIfProviderDisabled($providerName);
 
         /** @var Factory $factory */
@@ -60,10 +60,9 @@ class AuthController extends BaseController
      */
     private function redirectIfProviderDisabled($provider)
     {
-        $default = (object)['enabled' => false];
-        $oauth2 = $this->config->get($provider, $default);
+        $namespace = $this->config->path("security.oauth2.providers.$provider");
 
-        if (!$oauth2->enabled) {
+        if (empty($namespace)) {
             $this->flashSession->error('Invalid provider');
 
             $joinUrl = $this->url->get(['for' => 'join']);
@@ -73,13 +72,13 @@ class AuthController extends BaseController
     }
 
     /**
-     * Check whether signup is enabled in configuration.
+     * Check whether join page is enabled in configuration.
      *
      * Redirect to login page if disabled.
      */
-    private function redirectIfSignupDisabled()
+    private function redirectIfJoinDisabled()
     {
-        if(!$this->config->auth->signup) {
+        if(!$this->config->path('security.join.enabled')) {
             $homepageUrl = $this->url->get(['for' => 'login']);
             $this->response->redirect($homepageUrl);
             $this->response->send();
