@@ -4,7 +4,7 @@ use Phalcon\Mvc\Router;
 
 /** @var Phalcon\Di $di */
 $di->setShared('router', function () use($di) {
-    $router = new Router();
+    $router = new Router(false);
 
     $namespace = $di->get('config')->path('router.namespace');
     $router->setDefaultNamespace($namespace);

@@ -1,6 +1,5 @@
 <?php
 
-use Phalcon\Config\Adapter\Ini;
 use Phalcon\Mvc\Application;
 
 require __DIR__ .'/../app/bootstrap.php';
@@ -9,7 +8,7 @@ require __DIR__ .'/../app/bootstrap.php';
 try {
     // Load .env configuration.
     $dotenv = new Dotenv\Dotenv(ROOT_DIR, '.env.tests');
-    $dotenv->load();
+    $dotenv->overload();
 } catch (Dotenv\Exception\InvalidPathException $e) {
     // Skip loading if .env file is not set
     // (this catch block should be empty).

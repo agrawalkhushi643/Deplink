@@ -1,5 +1,5 @@
 Feature: Logout
 
   Scenario: Redirect to homepage
-    When I visit page '/logout'
-    Then I should be on page '/'
+    When I go to "/logout"
+    Then I should be on the homepage

@@ -18,7 +18,7 @@ class Factory extends \Phalcon\Di\Injectable
     {
         $this->providers = $this->getDI()
             ->get('config')
-            ->path('security.oauth2.providers');
+            ->path('auth.oauth2.providers');
     }
 
     /**

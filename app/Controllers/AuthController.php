@@ -4,6 +4,7 @@ namespace Deplink\Repository\App\Controllers;
 
 use Deplink\Repository\App\Services\OAuth2\Exceptions\ProviderNotSupportedException;
 use Deplink\Repository\App\Services\OAuth2\Factory;
+use Phalcon\Http\ResponseInterface;
 
 class AuthController extends BaseController
 {
@@ -12,7 +13,10 @@ class AuthController extends BaseController
      */
     public function joinAction()
     {
-        $this->redirectIfJoinDisabled();
+        // Show 404 page if joining is disabled.
+        if(!$this->isJoinEnabled()) {
+            return $this->notFound();
+        }
     }
 
     /**
@@ -21,12 +25,21 @@ class AuthController extends BaseController
      * - or create user if provider redirected back the code.
      *
      * @param string $providerName
+     * @return ResponseInterface
      * @throws ProviderNotSupportedException
      */
     public function socialJoinAction($providerName)
     {
-        $this->redirectIfJoinDisabled();
-        $this->redirectIfProviderDisabled($providerName);
+        // Show 404 page if joining is disabled.
+        if(!$this->isJoinEnabled()) {
+            return $this->notFound();
+        }
+
+        // Redirect back if provider isn't supported.
+        if($this->isProviderDisabled($providerName)) {
+            $url = $this->url->get(['for' => 'join']);
+            return $this->response->redirect($url);
+        }
 
         /** @var Factory $factory */
         $factory = $this->di->get(Factory::class);
@@ -48,40 +61,32 @@ class AuthController extends BaseController
         $this->session->destroy();
 
         $homepageUrl = $this->url->get(['for' => 'homepage']);
-        $this->response->redirect($homepageUrl);
+        return $this->response->redirect($homepageUrl);
     }
 
     /**
      * Check whether given provider is enabled in configuration.
      *
-     * Redirect back if provider isn't supported.
-     *
      * @param string $provider
+     * @return boolean
      */
-    private function redirectIfProviderDisabled($provider)
+    private function isProviderDisabled($provider)
     {
-        $namespace = $this->config->path("security.oauth2.providers.$provider");
-
-        if (empty($namespace)) {
-            $this->flashSession->error('Invalid provider');
-
-            $joinUrl = $this->url->get(['for' => 'join']);
-            $this->response->redirect($joinUrl);
-            $this->response->send();
+        if(empty($this->config->path("auth.oauth2.providers.$provider"))) {
+            $this->flashSession->error("The '$provider' provider is not supported.");
+            return true;
         }
+
+        return false;
     }
 
     /**
      * Check whether join page is enabled in configuration.
      *
-     * Redirect to login page if disabled.
+     * @return boolean
      */
-    private function redirectIfJoinDisabled()
+    private function isJoinEnabled()
     {
-        if(!$this->config->path('security.join.enabled')) {
-            $homepageUrl = $this->url->get(['for' => 'login']);
-            $this->response->redirect($homepageUrl);
-            $this->response->send();
-        }
+        return in_array($this->config->path('auth.join.enabled'), ['true', true, 1], true);
     }
 }

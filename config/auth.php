@@ -3,7 +3,7 @@
 return [
 
     'join' => [
-        'enabled' => getenv('JOIN_ENABLED', true),
+        'enabled' => getenv('JOIN_ENABLED', false),
     ],
 
     'oauth2' => [

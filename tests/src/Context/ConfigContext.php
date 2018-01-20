@@ -2,10 +2,11 @@
 
 namespace Deplink\Repository\Tests\Context;
 
+use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use PHPUnit\Framework\Assert;
 
-class ConfigContext extends BaseContext
+class ConfigContext implements Context
 {
     /**
      * @Given server has configuration:
@@ -14,8 +15,15 @@ class ConfigContext extends BaseContext
      */
     public function serverHasConfiguration(PyStringNode $config)
     {
-        $configFile = __DIR__ . '/../../../.env.tests';
+        $configFile = '.env.tests';
         file_put_contents($configFile, $config->getRaw());
         Assert::assertFileExists($configFile);
+    }
+    /**
+     * @AfterSuite
+     */
+    public static function cleanup()
+    {
+        unlink('.env.tests');
     }
 }
