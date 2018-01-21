@@ -19,9 +19,9 @@ class ChromeDriverContext implements Context
      */
     public static function start()
     {
-        $chromeDriver = 'exec tests/drivers/chromedriver-linux';
+        $chromeDriver = 'exec tests/drivers/chromedriver';
         if (self::onWindows()) {
-            $chromeDriver = 'tests/drivers/chromedriver-win.exe';
+            $chromeDriver = 'tests/drivers/chromedriver.exe';
         }
 
         self::$driver = new Process("\"$chromeDriver\" --port=4444 --url-base=wd/hub");
