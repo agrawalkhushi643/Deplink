@@ -21,9 +21,9 @@ class ChromeDriverContext implements Context
     {
         $prefix = self::onWindows() ? '' : 'exec';
 
-        $chromeDriver = 'tests/drivers/chromedriver';
+        $chromeDriver = 'tests/drivers/chromedriver-linux';
         if (self::onWindows()) {
-            $chromeDriver = 'tests/drivers/chromedriver.exe';
+            $chromeDriver = 'tests/drivers/chromedriver-win.exe';
         }
 
         self::$driver = new Process("$prefix \"$chromeDriver\" --port=4444 --url-base=wd/hub");
