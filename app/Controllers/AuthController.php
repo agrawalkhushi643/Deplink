@@ -14,7 +14,7 @@ class AuthController extends BaseController
     public function joinAction()
     {
         // Show 404 page if joining is disabled.
-        if(!$this->isJoinEnabled()) {
+        if(!$this->isSignupEnabled()) {
             return $this->notFound();
         }
     }
@@ -31,7 +31,7 @@ class AuthController extends BaseController
     public function socialJoinAction($providerName)
     {
         // Show 404 page if joining is disabled.
-        if(!$this->isJoinEnabled()) {
+        if(!$this->isSignupEnabled()) {
             return $this->notFound();
         }
 
@@ -85,8 +85,8 @@ class AuthController extends BaseController
      *
      * @return boolean
      */
-    private function isJoinEnabled()
+    private function isSignupEnabled()
     {
-        return in_array($this->config->path('auth.join.enabled'), ['true', true, 1], true);
+        return $this->config->path('auth.signup.enabled');
     }
 }

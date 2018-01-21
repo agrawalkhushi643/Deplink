@@ -7,7 +7,7 @@ Feature: Sign up
   Scenario: Join with GitHub disabled by default
     Given server has configuration:
       """
-      JOIN_ENABLED=true
+      SIGNUP_ENABLED=true
       """
     When I go to "/join"
     Then I should not see an "a[href='/join/github']" element

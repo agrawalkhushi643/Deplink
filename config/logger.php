@@ -2,6 +2,10 @@
 
 return [
 
+    /**
+     * Path to the file with server logs
+     * (relative to the root directory).
+     */
     'file' => 'storage/logs',
 
     /*

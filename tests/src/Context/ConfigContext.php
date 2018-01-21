@@ -8,6 +8,19 @@ use PHPUnit\Framework\Assert;
 
 class ConfigContext implements Context
 {
+    const ENV_FILE = '.env';
+    const ENV_BACKUP_FILE = '.env.backup';
+
+    /**
+     * @BeforeSuite
+     */
+    public static function prepare()
+    {
+        if(file_exists(self::ENV_FILE)) {
+            rename(self::ENV_FILE, self::ENV_BACKUP_FILE);
+        }
+    }
+
     /**
      * @Given server has configuration:
      * @param PyStringNode $config
@@ -15,15 +28,17 @@ class ConfigContext implements Context
      */
     public function serverHasConfiguration(PyStringNode $config)
     {
-        $configFile = '.env.tests';
-        file_put_contents($configFile, $config->getRaw());
-        Assert::assertFileExists($configFile);
+        file_put_contents(self::ENV_FILE, $config->getRaw());
+        Assert::assertFileExists(self::ENV_FILE);
     }
+
     /**
      * @AfterSuite
      */
     public static function cleanup()
     {
-        unlink('.env.tests');
+        if(file_exists(self::ENV_BACKUP_FILE)) {
+            rename(self::ENV_BACKUP_FILE, self::ENV_FILE);
+        }
     }
 }

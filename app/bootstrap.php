@@ -19,9 +19,10 @@ try {
 // Initialize DI container.
 $di = new FactoryDefault();
 
-// Load services from the bootstrap directory.
-$files = scandir(ROOT_DIR . '/bootstrap');
-$services = array_diff($files, ['..', '.']);
-foreach($services as $service) {
-    require ROOT_DIR .'/bootstrap/'. $service;
-}
+// Autoload helpers and DI services.
+require ROOT_DIR .'/helpers/autoload.php';
+autoload($di, ['helpers', 'bootstrap']);
+
+// Start pretty error page handler
+// (https://github.com/filp/whoops).
+$di->get('whoops')->register();

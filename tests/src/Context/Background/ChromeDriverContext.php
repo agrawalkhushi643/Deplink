@@ -44,9 +44,14 @@ class ChromeDriverContext implements Context
 
     /**
      * @AfterSuite
+     * @throws \Symfony\Component\Process\Exception\LogicException
      */
     public static function stop()
     {
+        echo "Chrome Driver:";
+        echo self::$driver->getOutput();
+        echo self::$driver->getErrorOutput();
+
         self::$driver->stop();
     }
 }

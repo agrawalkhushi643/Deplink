@@ -11,12 +11,10 @@ cache:
     - ~/.composer/cache
     - ~/cphalcon
 
-before_install:
-  - chmod +x tests/drivers/chromedriver-linux
-
 install:
   - composer install --no-interaction
   - vendor/bin/install-phalcon.sh 3.0.x
+  - chmod +x tests/drivers/chromedriver-linux
 
 script:
   - composer run-script tests

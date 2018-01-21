@@ -2,7 +2,7 @@
 
 use Phalcon\Mvc\Url;
 
-$di->set('url', function () {
+$di->setShared('url', function () {
     $url = new Url();
     $url->setBaseUri('/');
 

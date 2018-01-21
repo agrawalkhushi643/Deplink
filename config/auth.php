@@ -2,8 +2,8 @@
 
 return [
 
-    'join' => [
-        'enabled' => getenv('JOIN_ENABLED', false),
+    'signup' => [
+        'enabled' => env('SIGNUP_ENABLED', false),
     ],
 
     'oauth2' => [
