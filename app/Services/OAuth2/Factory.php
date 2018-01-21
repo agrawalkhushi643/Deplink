@@ -7,6 +7,9 @@ use Deplink\Repository\App\Services\OAuth2\Exceptions\ProviderNotSupportedExcept
 use League\OAuth2\Client\Provider\Github;
 use Phalcon\Di\InjectionAwareInterface;
 
+/**
+ * Give access to OAuth2 providers by their names.
+ */
 class Factory extends \Phalcon\Di\Injectable
 {
     /**

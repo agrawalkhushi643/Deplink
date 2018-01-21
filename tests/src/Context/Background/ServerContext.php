@@ -7,6 +7,12 @@ use PHPUnit\Framework\Assert;
 use PHPUnit_Framework_AssertionFailedError;
 use Symfony\Component\Process\Process;
 
+/**
+ * Context starts the PHP built in server and stop it at the end.
+ * Server is running at 8001 port with router script "tests/server.php".
+ *
+ * Use globally installed PHP version.
+ */
 class ServerContext implements Context
 {
     /**

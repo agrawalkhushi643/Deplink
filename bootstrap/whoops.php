@@ -24,7 +24,6 @@ $di->setShared('whoops', function () use($di) {
                 'stackTrace' => $exception->getTraceAsString(),
             ]);
 
-            /** @var \Phalcon\Mvc\View $view */
             echo $di->get('view')->getRender('_errors', '500', [
                 'exception' => $exception
             ]);

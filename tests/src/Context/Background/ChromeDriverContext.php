@@ -5,6 +5,10 @@ namespace Deplink\Repository\Tests\Context\Background;
 use Behat\Behat\Context\Context;
 use Symfony\Component\Process\Process;
 
+/**
+ * Context starts the chrome driver at the begging (on the 4444 port)
+ * and stop the process when all features has been tested.
+ */
 class ChromeDriverContext implements Context
 {
     /**

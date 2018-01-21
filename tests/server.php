@@ -4,7 +4,7 @@ use Phalcon\Mvc\Application;
 
 require __DIR__ .'/../app/bootstrap.php';
 
-// Emulate .htaccess
+// Emulate .htaccess file.
 $file = ROOT_DIR .'/public/'. $_SERVER['REQUEST_URI'];
 if(is_file($file)) {
     // Server static files
@@ -14,7 +14,7 @@ if(is_file($file)) {
 
 $_GET['_url'] = $_SERVER['REQUEST_URI'];
 
-// Handle the request
+// Handle the request.
 $application = new Application($di);
 $response = $application->handle();
 $response->send();

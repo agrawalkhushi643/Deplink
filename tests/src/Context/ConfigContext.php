@@ -6,12 +6,20 @@ use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use PHPUnit\Framework\Assert;
 
+/**
+ * Handles the .env configuration file.
+ *
+ * Context overwrites the user defined .env file
+ * and restore it at the end of the testing process.
+ */
 class ConfigContext implements Context
 {
     const ENV_FILE = '.env';
     const ENV_BACKUP_FILE = '.env.backup';
 
     /**
+     * Make copy of the original configuration.
+     *
      * @BeforeSuite
      */
     public static function prepare()
@@ -33,6 +41,9 @@ class ConfigContext implements Context
     }
 
     /**
+     * Restore the user defined .env file
+     * (which was overwritten for testing).
+     *
      * @AfterSuite
      */
     public static function cleanup()

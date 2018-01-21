@@ -14,8 +14,9 @@ return [
      *
      * Log level determine which of the logs will be written to the log file.
      * All logs below the specified log level will be omitted in the log file.
+     * For example setting level to notice will mute the debug and info logs.
      *
-     * Example: Setting level to warning will mute the debug, info and notice logs.
+     * Note: Unhandled exceptions belongs to the error level.
      */
     'level' => 'warning'
 
