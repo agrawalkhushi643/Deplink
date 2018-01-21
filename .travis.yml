@@ -6,8 +6,13 @@ addons:
 php:
   - 7.1
 
+cache:
+  directories:
+    - ~/.composer/cache
+    - ~/cphalcon
+
 before_install:
-  - chmod +x tests/bin/chromedriver-linux
+  - chmod +x tests/drivers/chromedriver-linux
 
 install:
   - composer install --no-interaction
