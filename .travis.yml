@@ -1,5 +1,7 @@
 language: php
 
+sudo: required
+
 addons:
   chrome: stable
 
