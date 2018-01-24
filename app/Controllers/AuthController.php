@@ -22,7 +22,7 @@ class AuthController extends BaseController
     /**
      * Handle OAuth2 workflow:
      * - redirect to the provider login page if not authenticated,
-     * - or create user if provider redirected back the code.
+     * - or create user if successfully authenticated.
      *
      * @param string $providerName
      * @return ResponseInterface
@@ -43,14 +43,19 @@ class AuthController extends BaseController
 
         /** @var Factory $factory */
         $factory = $this->di->get(Factory::class);
-        $provider = $factory->make($providerName);
+        $client = $factory->make($providerName);
 
-        // ...
+        $user = $client->login();
+        // TODO ...
+        var_dump($user);exit;
     }
 
+    /**
+     * Show user login page.
+     */
     public function loginAction()
     {
-        // ...
+        // TODO ...
     }
 
     /**
@@ -62,6 +67,27 @@ class AuthController extends BaseController
 
         $homepageUrl = $this->url->get(['for' => 'homepage']);
         return $this->response->redirect($homepageUrl);
+    }
+
+    /**
+     * Handle OAuth2 provider response (redirect uri)
+     * with code param required to obtain the access token.
+     *
+     * @param string $providerName
+     * @return ResponseInterface
+     * @throws ProviderNotSupportedException
+     */
+    public function obtainAccessTokenAction($providerName)
+    {
+        /** @var Factory $factory */
+        $factory = $this->di->get(Factory::class);
+        $client = $factory->make($providerName);
+
+        $state = $this->request->getQuery('state');
+        $code = $this->request->getQuery('code');
+        $previousUrl = $client->storeCode($state, $code);
+
+        return $this->response->redirect($previousUrl, false, 200);
     }
 
     /**
