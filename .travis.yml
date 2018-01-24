@@ -13,6 +13,9 @@ cache:
     - ~/.composer/cache
     - ~/cphalcon
 
+before_install:
+  - php -r "echo phpinfo();"
+
 install:
   - composer install --no-interaction
   - vendor/bin/install-phalcon.sh 3.0.x
