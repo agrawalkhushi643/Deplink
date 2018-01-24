@@ -11,11 +11,11 @@ php:
 cache:
   directories:
     - ~/.composer/cache
+    - ~/cphalcon
 
 install:
-  - curl -s "https://packagecloud.io/install/repositories/phalcon/stable/script.deb.sh" | sudo bash
-  - sudo apt-get install php7.0-phalcon
   - composer install --no-interaction
+  - vendor/bin/install-phalcon.sh 3.3.1
   - chmod +x tests/drivers/chromedriver-linux
 
 script:
