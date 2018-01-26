@@ -5,8 +5,8 @@ Getting Started
 
 You're going to need:
 
-- **PHP >=7.0**
-- [**Phalcon 3**](https://phalconphp.com/)
+- **PHP 7.0**
+- [**Phalcon 3.3**](https://phalconphp.com/)
 - **Apache** or **Nginx**
 
 ### Getting Set Up

@@ -2,18 +2,16 @@
 
 namespace Deplink\Repository\App\Services\OAuth2;
 
-use Deplink\Repository\App\Services\Injectable;
+use Deplink\Repository\App\Services\DefaultInjection;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use League\OAuth2\Client\Token\AccessToken;
 use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\Http\Request;
 use Phalcon\Http\Response;
-use Phalcon\Session\Adapter;
 
 class Client implements InjectionAwareInterface
 {
-    use Injectable;
+    use DefaultInjection;
 
     /**
      * @var string
@@ -62,14 +60,6 @@ class Client implements InjectionAwareInterface
     }
 
     /**
-     * @return Adapter
-     */
-    private function getSession()
-    {
-        return $this->getDI()->get('session');
-    }
-
-    /**
      * @return Response|ResourceOwnerInterface
      */
     public function login()
@@ -99,21 +89,17 @@ class Client implements InjectionAwareInterface
         $authorizationUrl = $this->getProvider()->getAuthorizationUrl();
 
         // Get the state generated for you and store it to the session.
-        $this->getSession()->set('oauth2_request_state', $this->provider->getState());
+        $this->session->set('oauth2_request_state', $this->provider->getState());
 
         // Store the page url used later to back after valid authentication,
         // it's required because OAuth2 has one central point which handles
         // user authentication which can be triggered from many pages.
-        /** @var Request $request */
-        $request = $this->getDI()->get('request');
-        $this->getSession()->set('oauth2_page_url', $request->getURI());
+        $this->session->set('oauth2_page_url', $this->request->getURI());
 
-        /** @var Response $response */
-        $response = $this->getDI()->get('response');
-        $response->redirect($authorizationUrl);
-        $response->send();
+        $this->response->redirect($authorizationUrl);
+        $this->response->send();
 
-        return $response;
+        return $this->response;
     }
 
     /**
@@ -124,7 +110,7 @@ class Client implements InjectionAwareInterface
      */
     private function isLoginInitialized()
     {
-        return $this->getSession()->has('oauth2_code');
+        return $this->session->has('oauth2_code');
     }
 
     /**
@@ -137,13 +123,13 @@ class Client implements InjectionAwareInterface
      */
     private function isStateValid()
     {
-        if (!$this->getSession()->has('oauth2_request_state')
-            || !$this->getSession()->has('oauth2_response_state')) {
+        if (!$this->session->has('oauth2_request_state')
+            || !$this->session->has('oauth2_response_state')) {
             return false;
         }
 
-        $requestState = $this->getSession()->get('oauth2_request_state');
-        $responseState = $this->getSession()->get('oauth2_response_state');
+        $requestState = $this->session->get('oauth2_request_state');
+        $responseState = $this->session->get('oauth2_response_state');
 
         return $requestState === $responseState;
     }
@@ -163,17 +149,17 @@ class Client implements InjectionAwareInterface
      */
     public function storeCode($state, $code)
     {
-        $this->getSession()->set('oauth2_response_state', $state);
-        $this->getSession()->set('oauth2_code', $code);
+        $this->session->set('oauth2_response_state', $state);
+        $this->session->set('oauth2_code', $code);
 
-        return $this->getSession()->get('oauth2_page_url');
+        return $this->session->get('oauth2_page_url');
     }
 
     private function authenticate()
     {
         // Get and remove code (one use only).
-        $code = $this->getSession()->get('oauth2_code');
-        $this->getSession()->remove('oauth2_code');
+        $code = $this->session->get('oauth2_code');
+        $this->session->remove('oauth2_code');
 
         try {
             $accessToken = $this->provider->getAccessToken('authorization_code', [
@@ -185,7 +171,7 @@ class Client implements InjectionAwareInterface
 
             return true;
         } catch (\Exception $e) {
-            $this->getDI()->get('logger')->debug("{message} in {file}:{line}\r\n{trace}", [
+            $this->logger->debug("{message} in {file}:{line}\r\n{trace}", [
                 'message' => $e->getMessage(),
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),
