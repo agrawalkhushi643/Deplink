@@ -3,12 +3,18 @@
 namespace Deplink\Repository\App\Services\OAuth2;
 
 use Deplink\Repository\App\Services\DefaultInjection;
+use Deplink\Repository\App\Services\OAuth2\Exceptions\AccessDeniedException;
+use Deplink\Repository\App\Services\OAuth2\Exceptions\InvalidStateException;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use League\OAuth2\Client\Token\AccessToken;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Http\Response;
 
+/**
+ * Client is responsible for handling OAuth2 workflow,
+ * it's bridge between application server and provider API.
+ */
 class Client implements InjectionAwareInterface
 {
     use DefaultInjection;
@@ -61,6 +67,8 @@ class Client implements InjectionAwareInterface
 
     /**
      * @return Response|ResourceOwnerInterface
+     * @throws InvalidStateException
+     * @throws AccessDeniedException
      */
     public function login()
     {
@@ -69,11 +77,11 @@ class Client implements InjectionAwareInterface
         }
 
         if (!$this->isStateValid()) {
-            // TODO: Show error (invalid state, csrf attack)...
+            throw new InvalidStateException("Token received from server doesn't match the generated one (possible CSRF's attack rejected).");
         }
 
-        if (!$this->authenticate()) {
-            // TODO: Redirect back and show that authentication failed (or user denied access)...
+        if (!$this->requestUserIdentity()) {
+            throw new AccessDeniedException("Access denied. It could be caused by user (rejected access), server outage or API error.");
         }
 
         return $this->getUserData();
@@ -137,7 +145,7 @@ class Client implements InjectionAwareInterface
     /**
      * @return ResourceOwnerInterface
      */
-    private function getUserData()
+    public function getUserData()
     {
         return $this->resourceOwner;
     }
@@ -155,7 +163,7 @@ class Client implements InjectionAwareInterface
         return $this->session->get('oauth2_page_url');
     }
 
-    private function authenticate()
+    private function requestUserIdentity()
     {
         // Get and remove code (one use only).
         $code = $this->session->get('oauth2_code');

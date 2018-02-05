@@ -19,7 +19,9 @@ class Factory extends Injectable
     {
         $providers = $this->config->path('auth.oauth2.providers');
         if (!isset($providers[$providerName])) {
-            throw new ProviderNotSupportedException();
+            $availableProviders = array_keys($this->config->path('auth.oauth2.providers'));
+            $availableProvidersStr = implode(', ', $availableProviders);
+            throw new ProviderNotSupportedException("Trying to use the '$providerName' OAuth2 provider which isn't supported. Use one of the available providers: $availableProvidersStr");
         }
 
         $providerClass = $providers[$providerName];
