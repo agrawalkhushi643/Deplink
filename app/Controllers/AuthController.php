@@ -2,6 +2,8 @@
 
 namespace Deplink\Repository\App\Controllers;
 
+use Deplink\Repository\App\Services\OAuth2\Exceptions\AccessDeniedException;
+use Deplink\Repository\App\Services\OAuth2\Exceptions\InvalidStateException;
 use Deplink\Repository\App\Services\OAuth2\Exceptions\ProviderNotSupportedException;
 use Deplink\Repository\App\Services\OAuth2\Factory;
 use Phalcon\Http\ResponseInterface;
@@ -27,6 +29,8 @@ class AuthController extends BaseController
      * @param string $providerName
      * @return ResponseInterface
      * @throws ProviderNotSupportedException
+     * @throws AccessDeniedException
+     * @throws InvalidStateException
      */
     public function socialJoinAction($providerName)
     {
