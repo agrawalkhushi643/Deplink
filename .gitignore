@@ -1,8 +1,13 @@
-# Composer dependencies.
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
 /vendor
-
-# Environment-specific configuration.
+/.idea
+/.vscode
+/.vagrant
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
 .env
-
-# Overwrite the .env variables (used in tests).
-.env.tests

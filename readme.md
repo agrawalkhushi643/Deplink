@@ -3,7 +3,7 @@
 Contributing
 ------------
 
-Thank you for considering contributing! If you would like to fix a bug or propose a new feature, you can submit a Pull Request. More details you can find in [contributing guidelines](contributing.md).
+Thank you for considering contributing! If you would like to fix a bug or propose a new feature, you can submit a Pull Request..
 
 License
 -------
