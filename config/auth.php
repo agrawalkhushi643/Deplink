@@ -4,6 +4,22 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Sign Up Options
+    |--------------------------------------------------------------------------
+    |
+    | This option controls whether guest can register an account.
+    | Moderated sign up means that system administrator must confirm
+    | an account before user could sign in.
+    |
+    */
+
+    'sign_up' => [
+        'enabled' => true,
+        'moderated' => false,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Authentication Defaults
     |--------------------------------------------------------------------------
     |
@@ -67,7 +83,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\User::class,
+            'model' => \App\Models\User::class,
         ],
 
         // 'users' => [

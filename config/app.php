@@ -13,7 +13,19 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Deplink - Private Repository'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application Description
+    |--------------------------------------------------------------------------
+    |
+    | This is the description of your application. This value is used to set
+    | the homepage description meta tag. Used to display in search engines.
+    |
+    */
+
+    'description' => env('APP_DESCRIPTION', 'Private instance of the Deplink Online Repository.'),
 
     /*
     |--------------------------------------------------------------------------
