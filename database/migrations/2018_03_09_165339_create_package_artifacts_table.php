@@ -20,7 +20,7 @@ class CreatePackageArtifactsTable extends Migration
             $table->string('version');
             $table->string('platform');
             $table->string('arch');
-            $table->binary('checksum');
+            $table->string('checksum');
             $table->timestamps();
         });
     }

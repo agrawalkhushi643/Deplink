@@ -31,5 +31,6 @@ Route::get('/', 'PackageController@index')->name('packages.index');
 Route::get('/@{org}/{package}', 'PackageController@show')->name('packages.show');
 Route::get('/packages/create', 'PackageController@create')->name('packages.create');
 Route::post('/packages', 'PackageController@store')->name('packages.store');
-Route::put('/@{org}/{package}/edit', 'PackageController@edit')->name('packages.edit');
+Route::get('/@{org}/{package}/edit', 'PackageController@edit')->name('packages.edit');
 Route::put('/@{org}/{package}', 'PackageController@update')->name('packages.update');
+Route::delete('/@{org}/{package}', 'PackageController@destroy')->name('packages.destroy');

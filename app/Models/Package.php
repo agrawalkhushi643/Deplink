@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Validation\Rule;
 
 class Package extends Model
 {
@@ -17,19 +16,31 @@ class Package extends Model
         'org', 'name',
     ];
 
-    public function getFullNameAttribute()
-    {
-        return $this->attributes['org'] .'/'. $this->attributes['name'];
-    }
-
     public function owner()
     {
         return $this->belongsTo(User::class);
     }
 
-    public static function findBySlug($org, $name)
+    public function artifacts()
     {
-        return self::where('org', $org)
+        return $this->hasMany(PackageArtifact::class);
+    }
+
+    public function getFullNameAttribute(): string
+    {
+        return $this->attributes['org'] . '/' . $this->attributes['name'];
+    }
+
+    /**
+     * @param Builder $builder
+     * @param string $org
+     * @param string $name
+     * @return Model
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public function scopeFindBySlug(Builder $builder, $org, $name): Package
+    {
+        return $builder->where('org', $org)
             ->where('name', $name)
             ->firstOrFail();
     }
