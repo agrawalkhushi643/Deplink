@@ -5,7 +5,8 @@ addons:
    chrome: stable
 
 install:
-   - cp .env.testing .env
+   - cp .env.dusk.local .env
+   - mysql -e 'create database dusk;'
    - travis_retry composer install --no-interaction --prefer-dist --no-suggest
 
 before_script:

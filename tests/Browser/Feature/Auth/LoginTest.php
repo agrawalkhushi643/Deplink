@@ -27,6 +27,7 @@ class LoginTest extends DuskTestCase
                 })
                 ->type('@email', 'admin@localhost')
                 ->type('@password', 'secret')
+                ->assertSee('Remember me')
                 ->click('@login')
                 ->on(new PackagesPage)
                 ->within(new ProfileComponent, function ($browser) {
