@@ -10,7 +10,7 @@ addons:
 
 install:
    - cp .env.travis .env
-   - mysql -e 'create database dusk;'
+   - mysql -e 'create database dusk character set utf8 collate utf8_general_ci;'
    - travis_retry composer install --no-interaction --prefer-dist --no-suggest
 
 before_script:
