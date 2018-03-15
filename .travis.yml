@@ -9,7 +9,7 @@ addons:
    chrome: stable
 
 install:
-   - cp .env.dusk.local .env
+   - cp .env.travis .env
    - mysql -e 'create database dusk;'
    - travis_retry composer install --no-interaction --prefer-dist --no-suggest
 
