@@ -12,6 +12,7 @@
 */
 
 // Packages
-Route::get('/v1/@{org}/{package}', 'PackageController@show');
-Route::get('/v1/@{org}/{package}/download', 'PackageController@download');
-Route::put('v1/@{org}/{package}/upload', 'PackageController@upload');
+Route::options('/@{org}/{package}', 'PackageController@check');
+Route::get('/@{org}/{package}/versions', 'Packages\VersionController@index');
+Route::get('/@{org}/{package}/{version}/download', 'PackageController@download');
+//Route::put('/@{org}/{package}/{version}/upload', 'PackageController@upload');

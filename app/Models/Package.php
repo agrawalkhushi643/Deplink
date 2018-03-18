@@ -21,11 +21,6 @@ class Package extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function artifacts()
-    {
-        return $this->hasMany(PackageArtifact::class);
-    }
-
     public function getFullNameAttribute(): string
     {
         return $this->attributes['org'] . '/' . $this->attributes['name'];
@@ -43,5 +38,10 @@ class Package extends Model
         return $builder->where('org', $org)
             ->where('name', $name)
             ->firstOrFail();
+    }
+
+    public function getDistDir()
+    {
+        return "packages/{$this->full_name}";
     }
 }

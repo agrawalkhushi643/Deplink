@@ -4,5 +4,10 @@ namespace App\Services\Queries;
 
 abstract class Query
 {
-    public abstract function get();
+    protected abstract function get();
+
+    public function run()
+    {
+        return $this->get();
+    }
 }
