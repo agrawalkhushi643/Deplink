@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Package;
+use App\Models\User;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -22,6 +24,11 @@ class CreatePackagesTable extends Migration
             $table->unique(['org', 'name']);
             $table->timestamps();
         });
+
+        $this->createPackage(
+            $this->getUser('deplink'),
+            'sample'
+        );
     }
 
     /**
@@ -32,5 +39,27 @@ class CreatePackagesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('packages');
+    }
+
+    private function getUser(string $name)
+    {
+        static $owner = null;
+        if (!is_null($owner)) {
+            return $owner;
+        }
+
+        $owner = User::where('name', $name)->firstOrFail();
+        return $owner;
+    }
+
+    private function createPackage(User $owner, string $name): Package
+    {
+        $package = new Package();
+        $package->org = $owner->name;
+        $package->name = $name;
+        $package->owner()->associate($owner);
+        $package->saveOrFail();
+
+        return $package;
     }
 }

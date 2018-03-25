@@ -12,6 +12,7 @@
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.4",
+        "deployer/deployer": "^6.1",
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
         "laravel/dusk": "^3.0",
