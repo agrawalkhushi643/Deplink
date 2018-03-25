@@ -14,8 +14,8 @@ return [
     */
 
     'sign_up' => [
-        'enabled' => true,
-        'moderated' => false,
+        'enabled' => env('SIGN_UP_ENABLED', false),
+        'moderated' => env('SIGN_UP_MODERATED', true),
     ],
 
     /*

@@ -8,7 +8,9 @@
             @endcomponent
         @else
             <a href="{{ route('login') }}">Sign in</a>
-            <a href="{{ route('register') }}">Sign up</a>
+            @if(config('auth.sign_up.enabled', false))
+                <a href="{{ route('register') }}">Sign up</a>
+            @endif
         @endauth
     </span>
 </div>
