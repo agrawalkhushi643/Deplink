@@ -32,5 +32,5 @@ task('build', function () {
 after('deploy:failed', 'deploy:unlock');
 after('deploy:vendors', 'deploy:npm');
 
-//before('deploy:symlink', 'artisan:migrate');
+before('deploy:symlink', 'artisan:migrate');
 

@@ -10,7 +10,7 @@ class CreateUsersTable extends Migration
     /**
      * Run the migrations.
      *
-     * @return void
+     * @throws RuntimeException
      */
     public function up()
     {
@@ -23,9 +23,11 @@ class CreateUsersTable extends Migration
             $table->timestamps();
         });
 
-        factory(User::class)->create([
+        User::create([
             'name' => 'deplink',
-            'email' => 'admin@localhost'
+            'email' => 'admin@localhost',
+            'password' => bcrypt('secret'),
+            'remember_token' => str_random(10),
         ]);
     }
 
