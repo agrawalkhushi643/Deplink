@@ -33,16 +33,17 @@ class VersionsQuery extends Query
 
     protected function get()
     {
-        // Full path to the version directory
+        // Full path to the version archives
         // (e.g. packages/deplink/sample/1.0.0).
-        $versionDirs = Storage::directories(
+        $archives = Storage::files(
             $this->getPackage()->getDistDir()
         );
 
-        // For the each item in the array of paths
-        // return the last part of the path (version).
-        return collect($versionDirs)->map(function($item) {
-            return basename($item);
+        // For an each item in the array of paths
+        // return the last part of the path (version)
+        // without .zip extensions.
+        return collect($archives)->map(function($item) {
+            return substr(basename($item), 0, -4);
         });
     }
 }

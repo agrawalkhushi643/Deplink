@@ -15,11 +15,11 @@
     @endcan
 
     <h2>Available versions:</h2>
-    @foreach($package->artifacts as $artifact)
-        <div>v{{ $artifact->version }} ({{ $artifact->platform }} {{ $artifact->arch }})</div>
+    @foreach($versions as $version)
+        <div>v{{ $version }}</div>
     @endforeach
 
-    @if($package->artifacts->isEmpty())
+    @if($versions->isEmpty())
         No binaries uploaded.
     @endif
 

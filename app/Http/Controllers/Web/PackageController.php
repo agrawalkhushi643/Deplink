@@ -6,6 +6,7 @@ use App\Models\Package;
 use App\Services\Commands\Packages\CreateCommand;
 use App\Services\Commands\Packages\DeleteCommand;
 use App\Services\Commands\Packages\RenameCommand;
+use App\Services\Queries\Packages\VersionsQuery;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -74,17 +75,19 @@ class PackageController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param VersionsQuery $query
      * @param string $org
      * @param string $name
      * @return \Illuminate\Http\Response
      */
-    public function show($org, $name)
+    public function show(VersionsQuery $query, $org, $name)
     {
-        $package = Package::with('artifacts')
-            ->findBySlug($org, $name);
+        $package = Package::findBySlug($org, $name);
+        $versions = $query->setPackage($package)->run();
 
         return view('pages.packages.show', [
             'package' => $package,
+            'versions' => $versions,
         ]);
     }
 
