@@ -14,5 +14,6 @@
 // Packages
 Route::options('/@{org}/{package}', 'PackageController@check');
 Route::get('/@{org}/{package}/versions', 'Packages\VersionController@index');
+Route::get('/@{org}/{package}/{version}/deplink.json', 'PackageController@metadata');
 Route::get('/@{org}/{package}/{version}/download', 'PackageController@download');
 //Route::put('/@{org}/{package}/{version}/upload', 'PackageController@upload');

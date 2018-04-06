@@ -3,10 +3,12 @@
 namespace Deployer;
 
 require 'recipe/laravel.php';
+require 'recipe/cachetool.php';
 
 set('application', 'deplink/repository');
 set('repository', 'https://github.com/deplink/repository');
 set('ssh_multiplexing', false);
+set('cachetool', '/run/php/php7.1-fpm.sock');
 
 add('shared_files', []);
 add('shared_dirs', []);
@@ -31,6 +33,6 @@ task('build', function () {
 
 after('deploy:failed', 'deploy:unlock');
 after('deploy:vendors', 'deploy:npm');
-
 before('deploy:symlink', 'artisan:migrate');
+after('deploy:symlink', 'cachetool:clear:opcache');
 
