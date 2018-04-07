@@ -1,3 +1,10 @@
 *
 !public/
 !.gitignore
+
+# Include only deplink/sample packages.
+#
+# The "!*/" rule instruct git to include all directories,
+# but files inside directories all still excluded by "*" rule.
+!*/
+!packages/deplink/sample/*.zip
