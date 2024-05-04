@@ -1,5 +1,6 @@
 <?php
 
+echo "bgfgf";
 namespace Deployer;
 
 require 'recipe/laravel.php';
